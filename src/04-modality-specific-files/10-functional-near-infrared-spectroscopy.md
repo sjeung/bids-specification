@@ -80,6 +80,8 @@ and this information can be stored within the SNIRF file (for example, in the `s
 However, to improve searchability and ease of access for users it is useful to
 know if short channels were included in the fNIRS measurements, this information
 is stored in the field `ShortChannelCount`.
+If the field `ShortChannelCount` is populated, then the optional column `short_channel`
+may be used in `*_channels.tsv` to describe which channels were specified as short.
 
 Generic fields that MUST be present:
 
@@ -203,6 +205,7 @@ The following columns SHOULD be present:
 | wavelength_actual          | OPTIONAL              | [number][]    | Measured wavelength of light in nm. `n/a` for channels that do not contain raw NIRS signals (acceleration). This field is equivalent to `measurementList.wavelengthActual` in the SNIRF specification.                  |
 | description                | OPTIONAL              | [string][]    | Free-form text description of the channel, or other information of interest.                                                                                                                                            |
 | wavelength_emission_actual | OPTIONAL              | [number][]    | Measured emission wavelength of light in nm. `n/a` for channels that do not contain raw NIRS signals (acceleration). This field is equivalent to `measurementList.wavelengthEmissionActual` in the SNIRF specification. |
+| short_channel              | OPTIONAL              | [boolean][]   | Is the channel designated as short. The total number of channels listed as short channels should be stored in `ShortChannelCount` in `*_fnirs.csv`.                                                                     |
 
 Restricted keyword list for the channel type in alphabetic order. The fNIRS channel type
 must be specified. Additional channels that are recorded simultaneously with the fNIRS
