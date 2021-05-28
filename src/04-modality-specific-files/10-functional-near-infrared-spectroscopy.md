@@ -8,7 +8,7 @@ context of the academic literature.
 
 ## fNIRS recording data
 
-{{ MACROS___make_filename_template(datatypes=["nirs"], suffixes=["fnirs", "events"]) }}
+{{ MACROS___make_filename_template(datatypes=["nirs"], suffixes=["nirs", "events"]) }}
 
 Only the Shared Near Infrared File Format ([SNIRF](https://github.com/fNIRS/snirf))
 format is supported in BIDS. The SNIRF
@@ -48,7 +48,7 @@ apply in this document:
     It is common for a single Source-Detector pair to result in two or more channels
     with different wavelengths.
 
-### Sidecar JSON (`*_fnirs.json`)
+### Sidecar JSON (`*_nirs.json`)
 
 It is common within the fNIRS community for researchers to build their own caps
 and optode holders to position their sources and detectors, or for optodes to
@@ -207,14 +207,18 @@ The following columns SHOULD be present:
 | wavelength_emission_actual | OPTIONAL              | [number][]    | Measured emission wavelength of light in nm. `n/a` for channels that do not contain raw NIRS signals (acceleration). This field is equivalent to `measurementList.wavelengthEmissionActual` in the SNIRF specification. |
 | short_channel              | OPTIONAL              | [boolean][]   | Is the channel designated as short. The total number of channels listed as short channels should be stored in `ShortChannelCount` in `*_fnirs.csv`.                                                                     |
 
-Restricted keyword list for the channel type in alphabetic order. The fNIRS channel type
-must be specified. Additional channels that are recorded simultaneously with the fNIRS
-device and stored in the same data file should be included as well. For example,
-motion data that was simultaneously recorded with a different device should be specified
-according to BEP029 and not according to the fNIRS data type. Any of the channel types
-defined in the MEG, EEG or iEEG part of the specification can be used here as well. This
-table only lists the new types that are introduced in this BEP. All fNIRS channels MUST
-correspond to a [valid SNIRF data type](https://github.com/fNIRS/snirf/blob/master/snirf_specification.md#appendix). Note that upper-case is REQUIRED.
+Restricted keyword list for the channel types.
+All fNIRS channels types MUST correspond to a [valid SNIRF data type](https://github.com/fNIRS/snirf/blob/master/snirf_specification.md#appendix).
+Additional channels that are recorded simultaneously with the fNIRS
+device and stored in the same data file should be included as well.
+However, additional channels that are  simultaneously recorded with a different device
+should be stored according to their appropriate modality specification.
+For example, motion data that was simultaneously recorded with a different device should be specified
+according to BEP029 and not according to the fNIRS data type.
+Whereas, if the motion data was acquired in with the fNIRS device itself it should be included here with the fNIRS data.
+Any of the channel types defined in other BIDS specification can be used here as well,
+and several of these data types which are commonly acquired using fNIRS devices are included at the base of the table.
+Note that upper-case is REQUIRED.
 
 | **Keyword**                 | **Description**                                                                                                                                                             |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -235,7 +239,6 @@ S1-D1        NIRSCWAMPLITUDE        A1          Fz            760               
 S1-D1        NIRSCWAMPLITUDE        A1          Fz            850                  V
 S1-D2        NIRSCWAMPLITUDE        A1          Cz            760                  V
 S2-D1        NIRSCWAMPLITUDE        A2          Fz            760                  V
-
 ```
 
 ## Optode description (`*_optodes.tsv`)
@@ -267,14 +270,14 @@ The following columns MUST be present:
 
 The following columns MAY be present:
 
-| **Column name** | **Requirement level**               | **Data type**       | **Definition**                                                                                        |
-| --------------- | ----------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| template_x      | OPTIONAL but REQUIRED if x is `n/a` | [number][] or `n/a` | Assumed or ideal position along the x axis.                                                           |
-| template_y      | OPTIONAL but REQUIRED if x is `n/a` | [number][] or `n/a` | Assumed or ideal position along the y axis.                                                           |
-| template_z      | OPTIONAL but REQUIRED if x is `n/a` | [number][] or `n/a` | Assumed or ideal position along the z axis.                                                           |
-| description     | OPTIONAL.                           | [string][]          | Free-form text description of the optode, or other information of interest.                           |
-| source_type     | OPTIONAL.                           | [string][]          | The type of detector. Only to be used if the field `DetectorType` in `*_fnirs.json` is set to `mixed` |
-| detector_type   | OPTIONAL.                           | [string][]          | The type of detector. Only to be used if the field `SourceType` in `*_fnirs.json` is set to `mixed`   |
+| **Column name** | **Requirement level**               | **Data type**       | **Definition**                                                                                       |
+| --------------- | ----------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------- |
+| template_x      | OPTIONAL but REQUIRED if x is `n/a` | [number][] or `n/a` | Assumed or ideal position along the x axis.                                                          |
+| template_y      | OPTIONAL but REQUIRED if x is `n/a` | [number][] or `n/a` | Assumed or ideal position along the y axis.                                                          |
+| template_z      | OPTIONAL but REQUIRED if x is `n/a` | [number][] or `n/a` | Assumed or ideal position along the z axis.                                                          |
+| description     | OPTIONAL.                           | [string][]          | Free-form text description of the optode, or other information of interest.                          |
+| source_type     | OPTIONAL.                           | [string][]          | The type of detector. Only to be used if the field `DetectorType` in `*_nirs.json` is set to `mixed` |
+| detector_type   | OPTIONAL.                           | [string][]          | The type of detector. Only to be used if the field `SourceType` in `*_nirs.json` is set to `mixed`   |
 
 Example:
 
@@ -284,7 +287,6 @@ A1      source       -0.0707    0.0000    -0.0707    -0.07         0.00         
 Fz      detector     0.0000     0.0714    0.0699     0.0           0.07         0.07
 S1      source       -0.2707    0.0200    -0.1707    -0.03         0.02         -0.2
 D2      detector     0.0022     0.1214    0.0299     0.0           0.12         0.03
-
 ```
 
 ## Coordinate System JSON (`*_coordsystem.json`)
@@ -304,12 +306,12 @@ Not all fnirs systems provide 3D coordinate information or digitisation capabili
 
 Fields relating to the fNIRS optode positions:
 
-| **Key name**                         | **Requirement level**                                           | **Data type** | **Description**                                                                                                                                                                                                                                                                                                                                            |
-| ------------------------------------ | --------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| fnirsCoordinateSystem                | REQUIRED                                                        | [string][]    | Defines the coordinate system in which  the optode positions are expressed. See Appendix VIII for a list of restricted keywords for coordinate systems. If Other, provide definition of the coordinate system in NIRSCoordinateSystemDescription.                                                                                                          |
-| fnirsCoordinateUnits                 | REQUIRED                                                        | [string][]    | Units in which the coordinates that are listed in the field NIRSCoordinateSystem are represented. MUST be m, cm, or mm.                                                                                                                                                                                                                                    |
-| fnirsCoordinateSystemDescription     | RECOMMENDED, but REQUIRED if `fnirsCoordinateSystem` is `Other` | [string][]    | Freeform text description or link to document describing the NIRS coordinate system system in detail (for example, "Coordinate system with the origin at anterior commissure (AC), negative y-axis going through the posterior commissure (PC), z-axis going to a mid-hemisperic point which lies superior to the AC-PC line, x-axis going to the right"). |
-| fnirsCoordinateProcessingDescription | RECOMMENDED                                                     | [string][]    | Has any post-processing (such as projection) been done on the optode positions (for example, "surface_projection", "none").                                                                                                                                                                                                                                |
+| **Key name**                        | **Requirement level**                                          | **Data type** | **Description**                                                                                                                                                                                                                                                                                                                                            |
+| ----------------------------------- | -------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NIRSCoordinateSystem                | REQUIRED                                                       | [string][]    | Defines the coordinate system in which  the optode positions are expressed. See Appendix VIII for a list of restricted keywords for coordinate systems. If Other, provide definition of the coordinate system in NIRSCoordinateSystemDescription.                                                                                                          |
+| NIRSCoordinateUnits                 | REQUIRED                                                       | [string][]    | Units in which the coordinates that are listed in the field NIRSCoordinateSystem are represented. MUST be m, cm, or mm.                                                                                                                                                                                                                                    |
+| NIRSCoordinateSystemDescription     | RECOMMENDED, but REQUIRED if `NIRSCoordinateSystem` is `Other` | [string][]    | Freeform text description or link to document describing the NIRS coordinate system system in detail (for example, "Coordinate system with the origin at anterior commissure (AC), negative y-axis going through the posterior commissure (PC), z-axis going to a mid-hemisperic point which lies superior to the AC-PC line, x-axis going to the right"). |
+| NIRSCoordinateProcessingDescription | RECOMMENDED                                                    | [string][]    | Has any post-processing (such as projection) been done on the optode positions (for example, "surface_projection", "none").                                                                                                                                                                                                                                |
 
 Fields relating to the position of fiducials measured during an fnirs session/run:
 
@@ -348,4 +350,4 @@ Example:
 
 ## Temporary
 
-{{ MACROS___make_filename_template(datatypes=["nirs"], suffixes=["fnirs", "events", "channels", "optodes", "coordsystem"]) }}
+{{ MACROS___make_filename_template(datatypes=["nirs"], suffixes=["nirs", "events", "channels", "optodes", "coordsystem"]) }}
