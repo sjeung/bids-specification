@@ -351,3 +351,17 @@ Example:
 ## Temporary
 
 {{ MACROS___make_filename_template(datatypes=["nirs"], suffixes=["nirs", "events", "channels", "optodes", "coordsystem"]) }}
+
+<!-- Link Definitions -->
+
+[object]: https://www.json.org/json-en.html
+
+[objects]: https://www.json.org/json-en.html
+
+[number]: https://www.w3schools.com/js/js_json_datatypes.asp
+
+[string]: https://www.w3schools.com/js/js_json_datatypes.asp
+
+[boolean]: https://www.w3schools.com/js/js_json_datatypes.asp
+
+[arrays]: https://www.w3schools.com/js/js_json_arrays.asp
