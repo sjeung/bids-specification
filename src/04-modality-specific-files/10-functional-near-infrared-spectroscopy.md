@@ -113,12 +113,15 @@ Whenever possible, please avoid using ad hoc wording.
       "DeviceSerialNumber": "RECOMMENDED",
       "RecordingDuration": "RECOMMENDED",
       "HeadCircumference": "RECOMMENDED",
-      "CapManufacturer": "RECOMMENDED",
-      "CapManufacturersModelName": "RECOMMENDED",
       "HardwareFilters": "RECOMMENDED",
       "SubjectArtefactDescription": "RECOMMENDED",
    }
 ) }}
+
+| **Key name**               | **Requirement level** | **Data type** | **Description**                                                                                                                                                                                                                                                                                                                    |
+| -------------------------- | --------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CapManufacturer            | RECOMMENDED           | [string][]    | Name of the cap manufacturer (for example, "Artinis") If a custom-made cap is used then the string “custom” should be used. If no cap was used, such as with optodes that are directly taped to the scalp, then the string “none” should be used and NIRSPlacementScheme field may be used to specify the optode placement scheme. |
+| CapManufacturersModelName  | RECOMMENDED           | [string][]    | Manufacturer's designation of the fNIRS cap model (for example, "Headband with print (S-M)"). If a cap from a standard manufacturer was modified, then the field should be set to “custom.” If no cap was used, then the CapManafacturer field should be “none” and this field should be “n/a.”                                    |
 
 Specific fNIRS fields that MUST be present:
 
