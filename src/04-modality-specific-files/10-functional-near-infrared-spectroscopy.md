@@ -18,17 +18,6 @@ only a single run. A limited set of fields from the SNIRF specification are
 replicated  in the BIDS specification. This redundancy allows the data to be
 easily parsed by humans and machines that do not have a SNIRF reader at hand,
 which improves findability and tooling development.
-Template:
-
-sub-<label>/
-    [ses-<label>/]
-        nirs/
-            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_nirs.snirf
-            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_nirs.json
-            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_nirs.json
-            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_channels.tsv
-            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_optodes.tsv
-            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_coordsystem.json
 
 Raw fNIRS data in the native format, if different from SNIRF, can also
 be stored in the [`/sourcedata` directory](../02-common-principles.md#source-vs-raw-vs-derived-data)
@@ -100,30 +89,37 @@ may be used in `*_channels.tsv` to describe which channels were specified as sho
 
 Generic fields that MUST be present:
 
-| **Key name** | **Requirement level** | **Data type** | **Description**                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------ | --------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| TaskName     | REQUIRED              | [string][]    | Name of the task. No two tasks should have the same name. The task label included in the file name is derived from this TaskName field by removing all non-alphanumeric (`[a-zA-Z0-9]`) characters. For example `TaskName` `"faces n-back"` will correspond to task label `facesnback`. A RECOMMENDED convention is to name resting state task using labels beginning with `rest`. |
+{{ MACROS___make_metadata_table(
+   {
+      "TaskName": "REQUIRED",
+   }
+) }}
 
-Generic fields which SHOULD be present: For consistency between studies and institutions, we encourage users to extract the values of these fields from the actual raw data. Whenever possible, please avoid using ad hoc wording.
+Generic fields which SHOULD be present: For consistency between studies and institutions,
+we encourage users to extract the values of these fields from the actual raw data.
+Whenever possible, please avoid using ad hoc wording.
 
-| **Key name**               | **Requirement level** | **Data type**                        | **Description**                                                                                                                                                                                                                                                                                                                        |
-| -------------------------- | --------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| InstitutionName            | RECOMMENDED           | [string][]                           | The name of the institution in charge of the equipment that produced the measurement.                                                                                                                                                                                                                                                  |
-| InstitutionAddress         | RECOMMENDED           | [string][]                           | The address of the institution in charge of the equipment that produced the measurement.                                                                                                                                                                                                                                               |
-| Manufacturer               | RECOMMENDED           | [string][]                           | Manufacturer of the fNIRS system (for example, `"NIRx"`, `"Artinis"`, `"Hitachi"`).                                                                                                                                                                                                                                                    |
-| ManufacturersModelName     | RECOMMENDED           | [string][]                           | Manufacturer's designation of the fNIRS system model (for example, `"NIRScout"`).                                                                                                                                                                                                                                                      |
-| SoftwareVersions           | RECOMMENDED           | [string][]                           | Manufacturer's designation of the acquisition software.                                                                                                                                                                                                                                                                                |
-| TaskDescription            | RECOMMENDED           | [string][]                           | Description of the task.                                                                                                                                                                                                                                                                                                               |
-| Instructions               | RECOMMENDED           | [string][]                           | Text of the instructions given to participants before the measurement. This is not only important for behavioral or cognitive tasks but also in resting state paradigms (for example, to distinguish between eyes open and eyes closed).                                                                                               |
-| CogAtlasID                 | RECOMMENDED           | [string][]                           | [URI][uri] of the corresponding [Cognitive Atlas](https://www.cognitiveatlas.org/) term that describes the task (for example, Resting State with eyes closed "<https://www.cognitiveatlas.org/task/id/trm_54e69c642d89b>").                                                                                                            |
-| CogPOID                    | RECOMMENDED           | [string][]                           | [URI][uri] of the corresponding [CogPO](http://www.cogpo.org/) term that describes the task (for example, Rest "<http://wiki.cogpo.org/index.php?title=Rest>") .                                                                                                                                                                       |
-| DeviceSerialNumber         | RECOMMENDED           | [string][]                           | The serial number of the equipment that produced the measurement. A pseudonym can also be used to prevent the equipment from being identifiable, as long as each pseudonym is unique within the dataset.                                                                                                                               |
-| RecordingDuration          | RECOMMENDED           | [number][]                           | Length of the recording in seconds (for example, 3600).                                                                                                                                                                                                                                                                                |
-| HeadCircumference          | RECOMMENDED           | [number][]                           | Circumference of the participants head, expressed in cm (for example, 58).                                                                                                                                                                                                                                                             |
-| CapManufacturer            | RECOMMENDED           | [string][]                           | Name of the cap manufacturer (for example, "Artinis") If a custom-made cap is used then the string “custom” should be used. If no cap was used, such as with optodes that are directly taped to the scalp, then the string “none” should be used and NIRSPlacementScheme field may be used to specify the optode placement scheme.     |
-| CapManufacturersModelName  | RECOMMENDED           | [string][]                           | Manufacturer's designation of the fNIRS cap model (for example, "Headband with print (S-M)"). If a cap from a standard manufacturer was modified, then the field should be set to “custom.” If no cap was used, then the CapManafacturer field should be “none” and this field should be “n/a.”                                        |
-| HardwareFilters            | RECOMMENDED           | [object][] of [objects][] or `"n/a"` | [Object][] of temporal hardware filters applied, or `"n/a"` if the data is not available. Each key:value pair in the JSON object is a name of the filter and an object in which its parameters are defined as key:value pairs. For example, `{"Highpass RC filter": {"Half amplitude cutoff (Hz)": 0.0159, "Roll-off": "6dB/Octave"}}` |
-| SubjectArtefactDescription | RECOMMENDED           | [string][]                           | Free-form description of the observed subject artifact and its possible cause (for example, "Vagus Nerve Stimulator", "non-removable implant"). If this field is set to `n/a`, it will be interpreted as absence of major source of artifacts except cardiac and blinks.                                                               |
+{{ MACROS___make_metadata_table(
+   {
+      "InstitutionName": "RECOMMENDED",
+      "InstitutionAddress": "RECOMMENDED",
+      "Manufacturer": "RECOMMENDED",
+      "ManufacturersModelName": "RECOMMENDED",
+      "SoftwareVersions": "RECOMMENDED",
+      "TaskDescription": "RECOMMENDED",
+      "Instructions": "RECOMMENDED",
+      "CogAtlasID": "RECOMMENDED",
+      "CogPOID": "RECOMMENDED",
+      "DeviceSerialNumber": "RECOMMENDED",
+      "RecordingDuration": "RECOMMENDED",
+      "HeadCircumference": "RECOMMENDED",
+      "CapManufacturer": "RECOMMENDED",
+      "CapManufacturersModelName": "RECOMMENDED",
+      "HardwareFilters": "RECOMMENDED",
+      "SubjectArtefactDescription": "RECOMMENDED",
+   }
+) }}
+
 
 Specific fNIRS fields that MUST be present:
 
@@ -335,24 +331,32 @@ Fields relating to the fNIRS optode positions:
 | NIRSCoordinateSystemDescription     | RECOMMENDED, but REQUIRED if `NIRSCoordinateSystem` is `Other` | [string][]    | Free-form text description or link to document describing the NIRS coordinate system in detail (for example, "Coordinate system with the origin at anterior commissure (AC), negative y-axis going through the posterior commissure (PC), z-axis going to a mid-hemisperic point which lies superior to the AC-PC line, x-axis going to the right"). |
 | NIRSCoordinateProcessingDescription | RECOMMENDED                                                    | [string][]    | Free-form text description of any post-processing (such as projection) that has been done on the optode positions (for example, "surface_projection", "none").                                                                                                                                                                                       |
 
+
+
 Fields relating to the position of fiducials measured during an fNIRS session/run:
 
-| **Key name**                         | **Requirement level**                                                 | **Data type**            | **Description**                                                                                                                                                                                                                                                                                                                                                 |
-| ------------------------------------ | --------------------------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| FiducialsDescription                 | OPTIONAL                                                              | [string][]               | Free-form text description of how the fiducials, such as "vitamin-E capsules were placed relative to anatomical landmarks," and how the position of the fiducials were measured (for example, both with Polhemus and with T1w MRI).                                                                                                                             |
-| FiducialsCoordinates                 | RECOMMENDED                                                           | [object][] of [arrays][] | Key:value pairs of the labels and 3-D digitized position of anatomical landmarks, interpreted following the `FiducialsCoordinateSystem` (for example, `{"NAS": [12.7,21.3,13.9], "LPA": [5.2,11.3,9.6], "RPA": [20.2,11.3,9.1]}`). Each array MUST contain three numeric values corresponding to x, y, and z axis of the coordinate system in that exact order. |
-| FiducialsCoordinateSystem            | RECOMMENDED                                                           | [string][]               | Defines the coordinate system for the fiducials. Preferably the same as the `EEGCoordinateSystem`. See [Appendix VIII](../99-appendices/08-coordinate-systems.md) for a list of restricted keywords for coordinate systems. If `"Other"`, provide definition of the coordinate system in `FiducialsCoordinateSystemDescription`.                                |
-| FiducialsCoordinateUnits             | RECOMMENDED                                                           | [string][]               | Units in which the coordinates that are  listed in the field `FiducialsCoordinateSystem` are represented. MUST be `"m"`, `"cm"`, or `"mm"`.                                                                                                                                                                                                                     |
-| FiducialsCoordinateSystemDescription | RECOMMENDED, but REQUIRED if `FiducialsCoordinateSystem` is `"Other"` | [string][]               | Free-form text description of the coordinate system. May also include a link to a documentation page or paper describing the system in greater detail.                                                                                                                                                                                                          |
+{{ MACROS___make_metadata_table(
+   {
+      "FiducialsDescription": "OPTIONAL",
+      "FiducialsCoordinates": "RECOMMENDED",
+      "FiducialsCoordinateSystem": "RECOMMENDED",
+      "FiducialsCoordinateUnits": "RECOMMENDED",
+      "FiducialsCoordinateSystemDescription": 'RECOMMENDED, but REQUIRED if `FiducialsCoordinateSystem` is `"Other"`',
+   }
+) }}
+
 
 Fields relating to the position of anatomical landmarks measured during an fNIRS session/run:
 
-| **Key name**                                  | **Requirement level**                                                          | **Data type**            | **Description**                                                                                                                                                                                                                                                                                                                                                          |
-| --------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| AnatomicalLandmarkCoordinates                 | RECOMMENDED                                                                    | [object][] of [arrays][] | Key:value pairs of the labels and 3-D digitized position of anatomical landmarks, interpreted following the `AnatomicalLandmarkCoordinateSystem` (for example, `{"NAS": [12.7,21.3,13.9], "LPA": [5.2,11.3,9.6], "RPA": [20.2,11.3,9.1]}`). Each array MUST contain three numeric values corresponding to x, y, and z axis of the coordinate system in that exact order. |
-| AnatomicalLandmarkCoordinateSystem            | RECOMMENDED                                                                    | [string][]               | Defines the coordinate system for the anatomical landmarks. Preferably the same as the `EEGCoordinateSystem`. See [Appendix VIII](../99-appendices/08-coordinate-systems.md) for a list of restricted keywords for coordinate systems. If `"Other"`, provide definition of the coordinate system in `AnatomicalLandmarkCoordinateSystemDescription`.                     |
-| AnatomicalLandmarkCoordinateUnits             | RECOMMENDED                                                                    | [string][]               | Units in which the coordinates that are  listed in the field `AnatomicalLandmarkCoordinateSystem` are represented. MUST be `"m"`, `"cm"`, or `"mm"`.                                                                                                                                                                                                                     |
-| AnatomicalLandmarkCoordinateSystemDescription | RECOMMENDED, but REQUIRED if `AnatomicalLandmarkCoordinateSystem` is `"Other"` | [string][]               | Free-form text description of the coordinate system. May also include a link to a documentation page or paper describing the system in greater detail.                                                                                                                                                                                                                   |
+{{ MACROS___make_metadata_table(
+   {
+      "AnatomicalLandmarkCoordinates": "RECOMMENDED",
+      "AnatomicalLandmarkCoordinateSystem": ("RECOMMENDED", "Preferably the same as the `NIRSCoordinateSystem`."),
+      "AnatomicalLandmarkCoordinateUnits": "RECOMMENDED",
+      "AnatomicalLandmarkCoordinateSystemDescription": 'RECOMMENDED, but REQUIRED if `AnatomicalLandmarkCoordinateSystem` is `"Other"`',
+   }
+) }}
+
 
 Example:
 ```text
