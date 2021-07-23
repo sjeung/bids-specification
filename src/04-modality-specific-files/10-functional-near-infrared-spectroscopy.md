@@ -18,7 +18,7 @@ only a single run. A limited set of fields from the SNIRF specification are
 replicated  in the BIDS specification. This redundancy allows the data to be
 easily parsed by humans and machines that do not have a SNIRF reader at hand,
 which improves findability and tooling development.
-Template: 
+Template:
 
 sub-<label>/
     [ses-<label>/]
@@ -69,17 +69,17 @@ be directly attached to the scalp with adhesive. To facilitate description of
 the wide variety of possible configurations, several fields are RECOMMENDED within
 the `*_nirs.json` file.
 To clarify the usage and interaction of these fields, the following examples are provided.
-- If a commercial cap such as EasyCap actiCAP 64 Ch Standard-2
+-   If a commercial cap such as EasyCap actiCAP 64 Ch Standard-2
 was used, then the values `CapManufacturer = "EasyCap"`, `CapManufacturersModelName = "actiCAP
 64 Ch Standard-2"` and `NIRSPlacementScheme = "n/a"` should be used.
-- If an EasyCap was used but with custom positions,
+-   If an EasyCap was used but with custom positions,
 as may be done by cutting custom holes in the cap,
 then the values `CapManufacturer = "EasyCap"`, `CapManufacturersModelName = "custom"` and
 `NIRSPlacementScheme = "n/a"` should be used.
-- If a completely custom cap was knitted, then
+-   If a completely custom cap was knitted, then
 `CapManufacturer = "custom"`, `CapManufacturersModelName = "custom"` and
 `NIRSPlacementScheme = "n/a"`.
-- If no cap was used and optodes were taped to the scalp
+-   If no cap was used and optodes were taped to the scalp
 at positions Cz, C1 and C2, then the values `CapManufacturer = "none"`, `CapManufacturersModelName
 = "n/a"` and `NIRSPlacementScheme = "["Cz", "C1", "C2"]"` should be used.
 In these cases additional information regarding channels and optodes SHOULD be placed in `*_channels.tsv` and `*_optodes.tsv` files.
