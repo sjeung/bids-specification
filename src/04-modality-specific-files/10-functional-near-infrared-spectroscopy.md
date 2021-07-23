@@ -120,7 +120,6 @@ Whenever possible, please avoid using ad hoc wording.
    }
 ) }}
 
-
 Specific fNIRS fields that MUST be present:
 
 | **Key name**            | **Requirement level**                                | **Data type**     | **Description**                                                                                                                                                                                                                                                                                        |
@@ -331,8 +330,6 @@ Fields relating to the fNIRS optode positions:
 | NIRSCoordinateSystemDescription     | RECOMMENDED, but REQUIRED if `NIRSCoordinateSystem` is `Other` | [string][]    | Free-form text description or link to document describing the NIRS coordinate system in detail (for example, "Coordinate system with the origin at anterior commissure (AC), negative y-axis going through the posterior commissure (PC), z-axis going to a mid-hemisperic point which lies superior to the AC-PC line, x-axis going to the right"). |
 | NIRSCoordinateProcessingDescription | RECOMMENDED                                                    | [string][]    | Free-form text description of any post-processing (such as projection) that has been done on the optode positions (for example, "surface_projection", "none").                                                                                                                                                                                       |
 
-
-
 Fields relating to the position of fiducials measured during an fNIRS session/run:
 
 {{ MACROS___make_metadata_table(
@@ -345,7 +342,6 @@ Fields relating to the position of fiducials measured during an fNIRS session/ru
    }
 ) }}
 
-
 Fields relating to the position of anatomical landmarks measured during an fNIRS session/run:
 
 {{ MACROS___make_metadata_table(
@@ -356,7 +352,6 @@ Fields relating to the position of anatomical landmarks measured during an fNIRS
       "AnatomicalLandmarkCoordinateSystemDescription": 'RECOMMENDED, but REQUIRED if `AnatomicalLandmarkCoordinateSystem` is `"Other"`',
    }
 ) }}
-
 
 Example:
 ```text
@@ -380,14 +375,8 @@ Example:
 
 <!-- Link Definitions -->
 
-[object]: https://www.json.org/json-en.html
-
-[objects]: https://www.json.org/json-en.html
-
 [number]: https://www.w3schools.com/js/js_json_datatypes.asp
 
 [string]: https://www.w3schools.com/js/js_json_datatypes.asp
 
 [boolean]: https://www.w3schools.com/js/js_json_datatypes.asp
-
-[arrays]: https://www.w3schools.com/js/js_json_arrays.asp
