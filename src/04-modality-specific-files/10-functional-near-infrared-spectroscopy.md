@@ -18,8 +18,19 @@ only a single run. A limited set of fields from the SNIRF specification are
 replicated  in the BIDS specification. This redundancy allows the data to be
 easily parsed by humans and machines that do not have a SNIRF reader at hand,
 which improves findability and tooling development.
+Template: 
 
-Original unprocessed fNIRS data in the native format, if different from SNIRF, can also
+sub-<label>/
+    [ses-<label>/]
+        nirs/
+            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_nirs.snirf
+            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_nirs.json
+            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_nirs.json
+            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_channels.tsv
+            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_optodes.tsv
+            sub-<label>[_ses-<label>]_task-<label>[_acq-<label>][_run-<index>][_proc-<label>]_coordsystem.json
+
+Raw fNIRS data in the native format, if different from SNIRF, can also
 be stored in the [`/sourcedata` directory](../02-common-principles.md#source-vs-raw-vs-derived-data)
 along with code to convert the data to
 SNIRF in the [`/code` directory](../02-common-principles.md#storage-of-derived-datasets).
@@ -58,23 +69,24 @@ be directly attached to the scalp with adhesive. To facilitate description of
 the wide variety of possible configurations, several fields are RECOMMENDED within
 the `*_nirs.json` file.
 To clarify the usage and interaction of these fields, the following examples are provided.
-If a commercial cap such as EasyCap actiCAP 64 Ch Standard-2
-was used, then the values `CapManufacturer = ”EasyCap”`, `CapManufacturersModelName = ”actiCAP
-64 Ch Standard-2”` and `NIRSPlacementScheme = ”n/a”` should be used.
-If an EasyCap was used but with custom positions,
+- If a commercial cap such as EasyCap actiCAP 64 Ch Standard-2
+was used, then the values `CapManufacturer = "EasyCap"`, `CapManufacturersModelName = "actiCAP
+64 Ch Standard-2"` and `NIRSPlacementScheme = "n/a"` should be used.
+- If an EasyCap was used but with custom positions,
 as may be done by cutting custom holes in the cap,
-then the values `CapManufacturer = ”EasyCap”`, `CapManufacturersModelName = ”custom”` and
-`NIRSPlacementScheme = ”n/a”` should be used.
-If a completely custom cap was knitted, then
-`CapManufacturer = ”custom”`, `CapManufacturersModelName = ”custom”` and
-`NIRSPlacementScheme = ”n/a”`.
-If no cap was used and optodes were taped to the scalp
-at positions Cz, C1 and C2, then the values `CapManufacturer = ”none”`, `CapManufacturersModelName
-= ”n/a”` and `NIRSPlacementScheme = ”["Cz", "C1", “C2]”` should be used.
+then the values `CapManufacturer = "EasyCap"`, `CapManufacturersModelName = "custom"` and
+`NIRSPlacementScheme = "n/a"` should be used.
+- If a completely custom cap was knitted, then
+`CapManufacturer = "custom"`, `CapManufacturersModelName = "custom"` and
+`NIRSPlacementScheme = "n/a"`.
+- If no cap was used and optodes were taped to the scalp
+at positions Cz, C1 and C2, then the values `CapManufacturer = "none"`, `CapManufacturersModelName
+= "n/a"` and `NIRSPlacementScheme = "["Cz", "C1", "C2"]"` should be used.
+In these cases additional information regarding channels and optodes SHOULD be placed in `*_channels.tsv` and `*_optodes.tsv` files.
 
 Closely spaced or short-separation source-detector pairs are often included in fNIRS measurements to
 obtain a measure of systemic, rather than neural, activity. These source-detector
-pairs are referred to as short channels. There is variation in how manufacturers
+pairs are referred to as *short channels*. There is variation in how manufacturers
 implement these short channels, some use specialised sources or detectors,
 and the placement mechanisms vary.
 It is beyond the scope of the BIDS specification to define what constitutes a short channel,
@@ -162,7 +174,7 @@ Example:
 ### Participant file
 
 For fNIRS data, the modality agnostic participant.tsv and json files SHOULD contain
-the age field, as this is required for calculation of age-specific pathlength factors.
+the `age` field, as this is required for calculation of age-specific pathlength factors.
 If the dataset contains multiple groups, for example patients and controls, then
 a column labeled `group` MAY be included (see [participants.tsv](https://bids-specification.readthedocs.io/en/stable/03-modality-agnostic-files.html#participants-file)).
 
