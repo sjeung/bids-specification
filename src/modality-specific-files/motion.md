@@ -1,6 +1,6 @@
 # Motion
 
-For information on how to cite this extension when referencing it in the context of the academic literature, please read [Citing BIDS](../introduction.md#citing-bids).
+For information on how to cite this specification when referencing it in the context of the academic literature, please read [Citing BIDS](../introduction.md#citing-bids).
 
 Motion datasets formatted using this specification are available on the
 [BIDS examples repository](https://github.com/bids-standard/bids-examples#motion-datasets)
@@ -200,8 +200,9 @@ t2_gyro_z   z           GYRO   RightWrist      rad/s
 
 ## Reference frame description (`*_channels.json`)
 
-It is RECOMMENDED that the `*_channels.json` file contains additional metadata about channel which cannot be found in the `*_channels.tsv` or `*_motion.json` file.
-One RECOMMENDED use case is the information about the reference frame the data is to be interpreted in.
+A reference frame defines the space in relation to which the motion data is to be interpreted. There is a lack of consensus in how a reference system for motion capture is to be described and communicated. Reflecting this, the current version of the specification does NOT cover how a reference frame can be shared. It is however an aspect that is crucial for interpreting motion data. In the subset of cases where the information about the reference frame is available and easily describable, a solution that is compatible with the current version of BIDS is proposed below. 
+
+The `*_channels.json` file MAY contain additional metadata about channels which cannot be found in the `*_channels.tsv` or `*_motion.json` files. This file can contain the information about the reference frame the data is to be interpreted in.
 The definition SHOULD be stored in a field called `reference_frame`, the defined level CAN be matched to a value in the `reference_frame` colunm in the `*_channels.tsv` file.
 The use of a meanigful combination of `RotationRule`, `RotationOrder` and `SpatialAxis` for this definition is RECOMMENDED.
 If non of these principals apply for the motion data, it is RECOMMENDED to use a free form field `CoordinateSystemDescription` for the definition.
