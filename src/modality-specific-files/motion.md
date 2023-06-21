@@ -222,7 +222,7 @@ The position of a character in the sequence determines which of the X,Y,Z axes i
 For example, "ARS" for X-anterior, Y-right, Z-superior.
 For 1D or 2D cases, only specify the used axes and use the character "_" for unused axes
 ("A_R" when the Y axis is not used, for instance).
-If none of these principals apply, a free-form field `CoordinateSystemDescription` MAY be used for the definition.
+If none of these principals apply, a free-form field `ReferenceFrameDescription` MAY be used for the definition.
 
 ### Example of `*_channels.json`
 
@@ -236,7 +236,7 @@ If none of these principals apply, a free-form field `CoordinateSystemDescriptio
                 "RotationRule": "right-hand"
             },
             "local": {
-                "CoordinateSystemDescription": "Joint angles are described following the ISB-based coordinate system, 
+                "ReferenceFrameDescription": "Joint angles are described following the ISB-based coordinate system, 
                                                 with a local reference frame attached to the body segment. 
                                                 See Wu and Cavanagh (1995), Wu et al. (2002), Wu et al. (2005), 
                                                 and the Xsens MVN Awinda user manual for more information.",
