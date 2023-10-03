@@ -66,7 +66,8 @@ To store events alongside motion data when there are multiple tracking systems s
 Such an events filename SHOULD include the `tracksys` key and looks like
 `sub-<label>[_ses-<label>]_task-<label>[_tracksys-<label>][_acq-<label>][_run-<index>]_events.tsv`.
 Event latencies can then be related to motion samples of multiple tracking systems also by using `acq_time` column entries in the `*_scans.tsv`.
-The same principle applies when the events file is saved alongside a simultaneously recorded non-motion data (for example EEG).
+The same principle applies when the events file is saved alongside a simultaneously recorded non-motion data (for example EEG).  
+If an `*_events.tsv` file is provided without the `tracksys` key, the latencies are interpreted to be aligned with the motion file with the earliest recording onset.  
 
 ### Sidecar JSON (`*_motion.json`)
 
