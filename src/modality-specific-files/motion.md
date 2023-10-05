@@ -209,13 +209,13 @@ When shared, it SHOULD be stored in field `reference_frame`.
 The defined levels are specified as user-defined keywords, which MUST match a value in the `reference_frame` colunm in the matching `*_channels.tsv` file.
 Nested under each level of `reference_frame` are three RECOMMENDED fields, namely `RotationRule`, `RotationOrder` and `SpatialAxes`.
 Field `RotationOrder` specifies the sequence in which the elemental 3D extrinsic rotations are applied around the three distinct axes.
-The value MUST be one of: "XYZ", "XZY", "YXZ", "YZX", "ZXY", "ZYX", or "n/a".
-Field `RotationRule` indicates whether rotations are applied clockwise around an axis when seen from the positive direction (left-hand rule) or counter-clockwise (right-hand rule). The value MUST be one of: "left-hand", "right-hand", or "n/a".
+The value MUST be one of: "XYZ", "XZY", "YXZ", "YZX", "ZXY", "ZYX".
+Field `RotationRule` indicates whether rotations are applied clockwise around an axis when seen from the positive direction (left-hand rule) or counter-clockwise (right-hand rule). The value MUST be one of: "left-hand", "right-hand".
 Lastly, field `SpatialAxis` refers to the coordinate system in which the motion data are to be interpreted, if the recorded data can be mapped to a fixed reference frame.
 A sequence of characters A/P (anterior-posterior, indicating forward-backward), L/R (left-right), and S/I (superior-inferior, indicating up-down).
 The position of a character in the sequence determines which of the X,Y,Z axes it maps to. For example, "ARS" for X-anterior, Y-right, Z-superior.
 For 1D or 2D cases, only specify the used axes and use the character "_" for unused axes ("A_R" when the Y axis is not used, for instance).
-If non of these principals apply, a free-form field `ReferenceFrameDescription` MAY be used for the definition.
+If non of these principals apply, a free-form field `Description` MAY be used for the definition.
 
 ### Example of `*_channels.json`
 
